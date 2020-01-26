@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Tree List
+{% endblock title %}
+
+{% block content %}
+    {% for tree in object_list %}
+        <div>{{ tree.name }}</div>
+    {% endfor %}
+{% endblock content%}

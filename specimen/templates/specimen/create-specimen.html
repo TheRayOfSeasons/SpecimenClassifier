@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    New Specimen
+{% endblock title %}
+
+{% block content %}
+    <form class="form" action="." method="post">
+        <select name="tree_host" id="treeHost">
+            {% for tree in trees %}
+                <option value="{{ tree.pk }}">{{ tree.name }}</option>
+            {% endfor %}
+        </select>
+        <select name="localities" id="localities">
+            {% for locality in localities %}
+                <option value="{{ locality.pk }}">{{ locality.name }}</option>
+            {% endfor %}
+        </select>
+        <input class="form-control" type="text" name="latitude" id="latitude">
+        <input class="form-control" type="text" name="longhitude" id="longhitude">
+    </form>
+{% endblock content %}
