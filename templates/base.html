@@ -13,6 +13,7 @@
     </title>
 
     <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'vendor/flatpickr/flatpickr.min.css' %}">
     <script src="{% static 'bootstrap/js/bootstrap.min.js' %}"></script>
     <script src="{% static 'jquery/jquery.min.js' %}"></script>
 
@@ -32,6 +33,9 @@
 
     {% block content %}
     {% endblock content %}
+
+    <script src="{% static 'vendor/flatpickr/flatpickr.min.js' %}"></script>
+    <script src="{% static 'vendor/flatpickr/plugins/monthSelect/index.js' %}"></script>
 
     {% block extra_js %}
     {% endblock extra_js %}

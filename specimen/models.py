@@ -33,12 +33,12 @@ class Location(models.Model):
 
 
 class Specimen(models.Model):
-    name = models.CharField(max_length=256, blank=True, null=True)
-    code = models.CharField(max_length=128)
+    name = models.CharField(max_length=256, blank=True, default='<Blank>')
+    code = models.CharField(max_length=128, blank=True, default='<Blank>')
     host_tree = models.ForeignKey(Tree, on_delete=models.CASCADE)
     location = models.ForeignKey(Location, on_delete=models.CASCADE)
-    latitude = models.CharField(max_length=256)
-    longhitude = models.CharField(max_length=256)
+    latitude = models.CharField(max_length=256, blank=True, default='Not Specified')
+    longhitude = models.CharField(max_length=256, blank=True, default='Not Specified')
     dbh = models.DecimalField(
         max_digits=19,
         decimal_places=2
@@ -49,33 +49,37 @@ class Specimen(models.Model):
         return f'{self.name} - {self.code}'
 
 
-class Direction(models.Model):
-    specimen = models.ForeignKey(Specimen, on_delete=models.CASCADE)
-    name = models.CharField(
-        max_length=8,
-        choices=Directions.choices,
-        default=Directions.NORTH
-    )
+# class Direction(models.Model):
+#     specimen = models.ForeignKey(Specimen, on_delete=models.CASCADE)
+#     name = models.CharField(
+#         max_length=8,
+#         choices=Directions.choices,
+#         default=Directions.NORTH
+#     )
 
-    def __str__(self):
-        return f'{self.name} | {self.specimen.name} | {self.specimen.code}'
+#     def __str__(self):
+#         return f'{self.name} | {self.specimen.name} | {self.specimen.code}'
 
-    @property
-    def average(self):
-        samples = sample_set.select_related('score')
-        avg = decimal.Decimal(0)
+    # @property
+    # def average(self):
+    #     samples = sample_set.select_related('score')
+    #     avg = decimal.Decimal(0)
 
-        for sample in samples:
-            avg += sample.score
+    #     for sample in samples:
+    #         avg += sample.score
 
-        avg /= len(samples)
+    #     avg /= len(samples)
 
-        return avg
+    #     return avg
 
 
 class SpecimenDetails(models.Model):
     specimen = models.ForeignKey(Specimen, on_delete=models.CASCADE)
-    direction = models.ForeignKey(Direction, on_delete=models.CASCADE)
+    direction = models.CharField(
+        max_length=8,
+        choices=Directions.choices,
+        default=Directions.NORTH
+    )
     state_of_decay = models.CharField(
         max_length=8,
         choices=StateOfDecay.choices,
@@ -100,7 +104,12 @@ class EpyphyticOrganism(models.Model):
 
 
 class SpecimenEpyphyticOrganism(models.Model):
-    direction = models.ForeignKey(Direction, on_delete=models.CASCADE)
+    specimen = models.ForeignKey(Specimen, on_delete=models.CASCADE)
+    direction = models.CharField(
+        max_length=8,
+        choices=Directions.choices,
+        default=Directions.NORTH
+    )
     organism = models.ForeignKey(EpyphyticOrganism, on_delete=models.CASCADE)
 
     def __str__(self):
@@ -108,8 +117,13 @@ class SpecimenEpyphyticOrganism(models.Model):
 
 
 class Sample(models.Model):
-    direction = models.ForeignKey(Direction, on_delete=models.CASCADE)
-    score = models.DecimalField(
+    specimen = models.ForeignKey(Specimen, on_delete=models.CASCADE)
+    direction = models.CharField(
+        max_length=8,
+        choices=Directions.choices,
+        default=Directions.NORTH
+    )
+    ph_level = models.DecimalField(
         max_digits=19,
         decimal_places=2
     )

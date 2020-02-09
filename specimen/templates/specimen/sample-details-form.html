@@ -1,14 +1,35 @@
 <h3>Sample Details</h3>
 
-<select name="tree_host" id="treeHost">
+<label for="treeHost">Tree Host</label>
+<select class="form-control" name="tree_host" id="treeHost">
     {% for tree in trees %}
         <option value="{{ tree.pk }}">{{ tree.name }}</option>
     {% endfor %}
 </select>
-<select name="localities" id="localities">
+<label for="locality">Locality</label>
+<select class="form-control" name="locality" id="locality">
     {% for locality in localities %}
         <option value="{{ locality.pk }}">{{ locality.name }}</option>
     {% endfor %}
 </select>
+
+<label for="code">Code</label>
+<input class="form-control" type="text" name="code" id="code">
+
+<label for="dbh">DBH</label>
+<input class="form-control" type="text" name="dbh" id="dbh">
+
+<label for="latitude">Latitude</label>
 <input class="form-control" type="text" name="latitude" id="latitude">
+
+<label for="longhitude">Longhitude</label>
 <input class="form-control" type="text" name="longhitude" id="longhitude">
+
+<label for="collectionDate">Collection Date</label>
+<input class="form-control" type="text" name="collectionDate" id="collectionDate">
+
+<script>
+    $(document).ready(() => {
+        $('#collectionDate').flatpickr();
+    });
+</script>

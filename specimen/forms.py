@@ -15,6 +15,13 @@ class LocationForm(forms.ModelForm):
     class Meta:
         model = Location
         fields = ['name']
+
+
+class SpecimenForm(forms.ModelForm):
+
+    class Meta:
+        model = Specimen
+        fields = ['name', 'code', 'host_tree', '']
         
 
 # class SpecimenForm(forms.ModelForm):
