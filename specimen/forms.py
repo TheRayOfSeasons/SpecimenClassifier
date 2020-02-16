@@ -11,6 +11,9 @@ from trees.models import Tree
 
 
 class LocationForm(forms.ModelForm):
+    """
+    A form for creating locations. 
+    """
 
     class Meta:
         model = Location
@@ -18,20 +21,32 @@ class LocationForm(forms.ModelForm):
 
 
 class SpecimenForm(forms.ModelForm):
+    """
+    A form for creating and updating specimens.
+    """
 
     class Meta:
         model = Specimen
-        fields = ['name', 'code', 'host_tree', '']
-        
+        fields = (
+            'name',
+            'code',
+            'host_tree',
+            'location',
+            'latitude',
+            'longhitude',
+            'dbh',
+            'collection_date'
+        )
+        labels = {
+            'dbh': 'DBH',
+            'collection_date': 'Collection Date'
+        }
 
-# class SpecimenForm(forms.ModelForm):
-
-
-
-class SpecimenBaseFormSet(BaseFormSet):
-
-    def clean(self):
-        return
-
-
-# SpecimenFormSet = formset_factory()
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['host_tree'].queryset = (
+            Tree.objects.all())
+        self.fields['location'].queryset = (
+            Location.objects.all())
+        for visible in self.visible_fields():
+            visible.field.widget.attrs['class'] = 'form-control'

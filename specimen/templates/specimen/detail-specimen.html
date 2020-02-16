@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+Specimen Detail - {{ object.name }}
+{% endblock title %}
+
+{% block content %}
+<div class="card">
+    <div class="card-header">
+        <h2>
+            {{ object.name }}
+        </h2>
+    </div>
+    <div class="card-body">
+        <div>{{ object.code }}</div>
+        <div>{{ object.host_tree }}</div>
+        <div>{{ object.location }}</div>
+        <div>{{ object.latitude }}</div>
+        <div>{{ object.longhitude }}</div>
+        <div>{{ object.dbh }}</div>
+        <div>{{ object.collection_date }}</div>
+    </div>
+</div>
+{% endblock content %}

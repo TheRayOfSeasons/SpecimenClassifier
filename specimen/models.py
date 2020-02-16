@@ -33,12 +33,12 @@ class Location(models.Model):
 
 
 class Specimen(models.Model):
-    name = models.CharField(max_length=256, blank=True, default='<Blank>')
-    code = models.CharField(max_length=128, blank=True, default='<Blank>')
+    name = models.CharField(max_length=256, blank=True, default='')
+    code = models.CharField(max_length=128, blank=True, default='')
     host_tree = models.ForeignKey(Tree, on_delete=models.CASCADE)
     location = models.ForeignKey(Location, on_delete=models.CASCADE)
-    latitude = models.CharField(max_length=256, blank=True, default='Not Specified')
-    longhitude = models.CharField(max_length=256, blank=True, default='Not Specified')
+    latitude = models.CharField(max_length=256, blank=True, default='')
+    longhitude = models.CharField(max_length=256, blank=True, default='')
     dbh = models.DecimalField(
         max_digits=19,
         decimal_places=2

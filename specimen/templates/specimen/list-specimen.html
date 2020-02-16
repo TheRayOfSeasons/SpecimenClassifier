@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+    Specimen List
+{% endblock title %}
+
+{% block content %}
+<div class="container">
+    <div class="d-flex flex-row-reverse mb-3" id="header-buttons">
+        <a href="{% url 'specimen:create' %}">
+            <button class="btn btn-success">
+                Add Specimen
+            </button>
+        </a>
+    </div>
+    <table class="table table-condensed">
+        <tr>
+            <th>Name</th>
+            <th>Code</th>
+            <th>Host Tree</th>
+            <th>Location</th>
+            <th>Collection Date</th>
+            <th>Actions</th>
+        </tr>
+        {% for object in object_list %}
+        <tr>
+            <td>
+                <a href="{% url 'specimen:detail' object.pk %}">
+                    {{ object.name }}
+                </a>
+            </td>
+            <td>{{ object.code }}</td>
+            <td>{{ object.host_tree }}</td>
+            <td>{{ object.location }}</td>
+            <td>{{ object.collection_date|date:"Y-d-m" }}</td>
+            <td>
+                <a class="btn btn-sm btn-icon btn-secondary" href="{% url 'specimen:update' object.pk %}">
+                    <i class="fa fa-pencil"></i>
+                </a>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+{% endblock content %}

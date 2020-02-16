@@ -2,16 +2,16 @@
 {% load static %}
 
 {% block title %}
-    New Specimen
+    Update Specimen - {{ object.name }}
 {% endblock title %}
 
 {% block content %}
 <div class="container">
-    <h2>Create Specimen</h2>
+    <h2>Update Specimen</h2>
     <form class="form" action="." method="post">
         {% csrf_token %}
         {% include 'specimen/specimen-form.html' %}
-        <input type="submit" value="Submit"/>
+        <input type="submit" value="Update"/>
     </form>
 </div>
 {% endblock content %}
