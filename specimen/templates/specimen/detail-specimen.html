@@ -1,25 +1,103 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load core_extras %}
 
 {% block title %}
-Specimen Detail - {{ object.name }}
+    Specimen Detail - {{ object.name }}
 {% endblock title %}
 
 {% block content %}
-<div class="card">
+<div class="card mr-auto mb-3">
+    <div class="card-header"><h2>{{ object.name }}</h2></div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-6">
+                <div class="row">
+                    <div class="col-6">Code: </div>
+                    <div class="col-6">{{ object.code }}</div>
+                </div>
+                <div class="row">
+                    <div class="col-6">Host Tree: </div>
+                    <div class="col-6">{{ object.host_tree }}</div>
+                </div>
+                <div class="row">
+                    <div class="col-6">Location: </div>
+                    <div class="col-6">{{ object.location }}</div>
+                </div>
+                <div class="row">
+                    <div class="col-6">Latitude: </div>
+                    <div class="col-6">{{ object.latitude }}</div>
+                </div>
+                <div class="row">
+                    <div class="col-6">Longhitude: </div>
+                    <div class="col-6">{{ object.longhitude }}</div>
+                </div>
+                <div class="row">
+                    <div class="col-6">DBH: </div>
+                    <div class="col-6">{{ object.dbh }}</div>
+                </div>
+                <div class="row">
+                    <div class="col-6">Collection Date: </div>
+                    <div class="col-6">{{ object.collection_date }}</div>
+                </div>
+                <div class="row">
+                    <div class="col-6">State of Decay: </div>
+                    <div class="col-6">{{ object.get_state_of_decay_display }}</div>
+                </div>
+                <div class="row">
+                    <div class="col-6">Bark Texture: </div>
+                    <div class="col-6">{{ object.get_bark_texture_display }}</div>
+                </div>
+                <div class="row">
+                    <div class="col-6">Filter paper stain: </div>
+                    <div class="col-6">
+                        {% if object.stain|is_false %}
+                            -
+                        {% else %}
+                            +
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            <div class="col-6">
+                <div class="d-flex flex-row-reverse">
+                    <a class="btn btn-warning" href="{% url 'specimen:update' object.pk %}">
+                        Edit
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="card mr-auto mb-3">
     <div class="card-header">
-        <h2>
-            {{ object.name }}
-        </h2>
+        <div class="d-flex justify-content-between">
+            <span>Direction Details</span>
+            <a class="btn btn-sm btn-success" href="{% url 'specimen:new_direction_details' object.pk %}">
+                Create
+            </a>
+            <a class="btn btn-sm btn-warning" href="{% url 'specimen:update' object.pk %}">
+                Edit
+            </a>
+        </div>
     </div>
     <div class="card-body">
-        <div>{{ object.code }}</div>
-        <div>{{ object.host_tree }}</div>
-        <div>{{ object.location }}</div>
-        <div>{{ object.latitude }}</div>
-        <div>{{ object.longhitude }}</div>
-        <div>{{ object.dbh }}</div>
-        <div>{{ object.collection_date }}</div>
+
+    </div>
+</div>
+
+<div class="card mr-auto mb-3">
+    <div class="card-header">
+        <div class="d-flex justify-content-between">
+            <span>Direction Samples</span>
+            <a class="btn btn-sm btn-warning" href="{% url 'specimen:update' object.pk %}">
+                Edit
+            </a>
+        </div>
+    </div>
+    <div class="card-body">
+
     </div>
 </div>
 {% endblock content %}

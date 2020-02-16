@@ -15,14 +15,14 @@ class Directions(models.TextChoices):
 
 
 class StateOfDecay(models.TextChoices):
-    INTACT = 'i', _('intact')
-    MODERATELY_INTACT = 'mi', _('moderately intact')
-    LOOSE = 'l', _('loose')
+    INTACT = 'i', _('Intact')
+    MODERATELY_INTACT = 'mi', _('Moderately Intact')
+    LOOSE = 'l', _('Loose')
 
 
 class Texture(models.TextChoices):
-    SMOOTH = 's', _('smooth')
-    ROUGH = 'r', _('rough')
+    SMOOTH = 's', _('Smooth')
+    ROUGH = 'r', _('Rough')
 
 
 class Location(models.Model):
@@ -44,47 +44,11 @@ class Specimen(models.Model):
         decimal_places=2
     )
     collection_date = models.DateField(default=timezone.now)
-
-    def __str__(self):
-        return f'{self.name} - {self.code}'
-
-
-# class Direction(models.Model):
-#     specimen = models.ForeignKey(Specimen, on_delete=models.CASCADE)
-#     name = models.CharField(
-#         max_length=8,
-#         choices=Directions.choices,
-#         default=Directions.NORTH
-#     )
-
-#     def __str__(self):
-#         return f'{self.name} | {self.specimen.name} | {self.specimen.code}'
-
-    # @property
-    # def average(self):
-    #     samples = sample_set.select_related('score')
-    #     avg = decimal.Decimal(0)
-
-    #     for sample in samples:
-    #         avg += sample.score
-
-    #     avg /= len(samples)
-
-    #     return avg
-
-
-class SpecimenDetails(models.Model):
-    specimen = models.ForeignKey(Specimen, on_delete=models.CASCADE)
-    direction = models.CharField(
-        max_length=8,
-        choices=Directions.choices,
-        default=Directions.NORTH
-    )
     state_of_decay = models.CharField(
         max_length=8,
         choices=StateOfDecay.choices,
         default=StateOfDecay.INTACT
-    ),
+    )
     bark_texture = models.CharField(
         max_length=8,
         choices=Texture.choices,
@@ -93,7 +57,7 @@ class SpecimenDetails(models.Model):
     stain = models.BooleanField(default=True)
 
     def __str__(self):
-        return f'{self.specimen.name} - {self.specimen.code}'
+        return f'{self.name} - {self.code}'
 
 
 class EpyphyticOrganism(models.Model):
@@ -105,29 +69,70 @@ class EpyphyticOrganism(models.Model):
 
 class SpecimenEpyphyticOrganism(models.Model):
     specimen = models.ForeignKey(Specimen, on_delete=models.CASCADE)
-    direction = models.CharField(
-        max_length=8,
-        choices=Directions.choices,
-        default=Directions.NORTH
-    )
     organism = models.ForeignKey(EpyphyticOrganism, on_delete=models.CASCADE)
 
     def __str__(self):
         return f'{self.direction.specimen.name} | {self.organism.name}'
 
 
-class Sample(models.Model):
-    specimen = models.ForeignKey(Specimen, on_delete=models.CASCADE)
-    direction = models.CharField(
-        max_length=8,
-        choices=Directions.choices,
-        default=Directions.NORTH
-    )
+class DirectionSampleDetailsModel(models.Model):
+    specimen = models.OneToOneField(Specimen, on_delete=models.CASCADE)
     ph_level = models.DecimalField(
         max_digits=19,
         decimal_places=2
     )
+
+    class Meta:
+        abstract = True
+
+
+class NorthDetails(DirectionSampleDetailsModel):
+    def __str__(self):
+        return f'{self.specimen.name}'
+
+
+class WestDetails(DirectionSampleDetailsModel):
+    def __str__(self):
+        return f'{self.specimen.name}'
+
+
+class EastDetails(DirectionSampleDetailsModel):
+    def __str__(self):
+        return f'{self.specimen.name}'
+
+
+class SouthDetails(DirectionSampleDetailsModel):
+    def __str__(self):
+        return f'{self.specimen.name}'
+
+
+class DirectionImagesModel(models.Model):
+    specimen = models.ForeignKey(Specimen, on_delete=models.CASCADE)
     image = models.ImageField(blank=True, null=True)
 
+    class Meta:
+        abstract = True
+
+
+class NorthImages(DirectionImagesModel):
+
     def __str__(self):
-        return f'{self.specimen.name} - {self.specimen.code}'
+        return f'{self.details.specimen.name}'
+
+
+class EastImages(DirectionImagesModel):
+
+    def __str__(self):
+        return f'{self.details.specimen.name}'
+
+
+class WestImages(DirectionImagesModel):
+
+    def __str__(self):
+        return f'{self.details.specimen.name}'
+
+
+class SouthImages(DirectionImagesModel):
+
+    def __str__(self):
+        return f'{self.details.specimen.name}'

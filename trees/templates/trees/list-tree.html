@@ -5,6 +5,13 @@
 {% endblock title %}
 
 {% block content %}
+    <div class="d-flex flex-row-reverse mb-3" id="header-buttons">
+        <a href="{% url 'trees:create' %}">
+            <button class="btn btn-success">
+                Add Tree
+            </button>
+        </a>
+    </div>
     {% for tree in object_list %}
         <div>{{ tree.name }}</div>
     {% endfor %}

@@ -32,6 +32,8 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     # local Apps
+    'core',
+    'core.templatetags',
     'specimen',
     'trees',
 

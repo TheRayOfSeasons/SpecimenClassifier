@@ -43,7 +43,7 @@
                 <a class="nav-link" href="{% url 'specimen:list' %}">Specimens</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">Tree Hosts</a>
+                <a class="nav-link" href="{% url 'trees:list' %}">Tree Hosts</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="#">Locations</a>
@@ -58,8 +58,10 @@
     {% block modals %}
     {% endblock modals %}
 
-    {% block content %}
-    {% endblock content %}
+    <div class="container">
+        {% block content %}
+        {% endblock content %}
+    </div>
 
     <script src="{% static 'vendor/flatpickr/flatpickr.min.js' %}"></script>
     <script src="{% static 'vendor/flatpickr/plugins/monthSelect/index.js' %}"></script>

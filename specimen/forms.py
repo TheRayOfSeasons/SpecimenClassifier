@@ -5,7 +5,11 @@ from django.forms import (
 )
 from .models import (
     Location,
-    Specimen
+    Specimen,
+    NorthDetails,
+    EastDetails,
+    WestDetails,
+    SouthDetails
 )
 from trees.models import Tree
 
@@ -35,11 +39,17 @@ class SpecimenForm(forms.ModelForm):
             'latitude',
             'longhitude',
             'dbh',
-            'collection_date'
+            'collection_date',
+            'state_of_decay',
+            'bark_texture',
+            'stain',
         )
         labels = {
             'dbh': 'DBH',
-            'collection_date': 'Collection Date'
+            'collection_date': 'Collection Date',
+            'state_of_decay': 'State of Decay',
+            'bark_texture': 'Bark Texture',
+            'stain': 'Stain',
         }
 
     def __init__(self, *args, **kwargs):
@@ -48,5 +58,59 @@ class SpecimenForm(forms.ModelForm):
             Tree.objects.all())
         self.fields['location'].queryset = (
             Location.objects.all())
-        for visible in self.visible_fields():
-            visible.field.widget.attrs['class'] = 'form-control'
+
+
+class NorthDetailsForm(forms.ModelForm):
+    class Meta:
+        model = NorthDetails
+        fields = (
+            'ph_level',
+        )
+        labels = {
+            'ph_level': 'PH Level'
+        }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+
+class EastDetailsForm(forms.ModelForm):
+    class Meta:
+        model = EastDetails
+        fields = (
+            'ph_level',
+        )
+        labels = {
+            'ph_level': 'PH Level'
+        }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+
+class WestDetailsForm(forms.ModelForm):
+    class Meta:
+        model = WestDetails
+        fields = (
+            'ph_level',
+        )
+        labels = {
+            'ph_level': 'PH Level'
+        }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+
+class SouthDetailsForm(forms.ModelForm):
+    class Meta:
+        model = SouthDetails
+        fields = (
+            'ph_level',
+        )
+        labels = {
+            'ph_level': 'PH Level'
+        }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)

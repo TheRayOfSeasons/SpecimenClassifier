@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+    Edit Direction Details - {{ object.name }}
+{% endblock title %}
+
+{% block content %}
+    {{ north_details_form }}
+    {{ east_details_form }}
+    {{ west_details_form }}
+    {{ south_details_form }}
+{% endblock content %}

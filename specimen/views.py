@@ -15,7 +15,11 @@ from .models import (
 )
 from .forms import (
     SpecimenForm,
-    LocationForm
+    LocationForm,
+    NorthDetailsForm,
+    EastDetailsForm,
+    WestDetailsForm,
+    SouthDetailsForm,
 )
 
 
@@ -63,6 +67,26 @@ class UpdateSpecimenView(UpdateView):
     def get_success_url(self):
         return reverse_lazy('specimen:detail',
             kwargs={'pk': self.object.pk})
+
+
+class AddDirectionDetailsView(View):
+    template_name = 'specimen/direction-details.html'
+
+    def get(self, request, pk, *args, **kwargs):
+        context = {}
+        context['north_details_form'] = NorthDetailsForm()
+        context['east_details_form'] = EastDetailsForm()
+        context['west_details_form'] = WestDetailsForm()
+        context['south_details_form'] = SouthDetailsForm()
+        return render(request, self.template_name, context=context)
+
+    def post(self, request, pk, *args, **kwargs):
+        northPH = request.POST.get('northPH')
+        eastPH = request.POST.get('eastPH')
+        westPH = request.POST.get('westPH')
+        southPH = request.POST.get('southPH')
+        return reverse_lazy('specimen:detail')
+
 
 
 class AddLocationView(CreateView):

@@ -5,6 +5,7 @@ from .views import (
     SpecimenListView,
     SpecimenDetailView,
     AddLocationView,
+    AddDirectionDetailsView,
 )
 
 
@@ -21,4 +22,6 @@ urlpatterns = [
         name='update'),
     path('add-location/', AddLocationView.as_view(),
         name='new_location'),
+    path('new-direction-details/<int:pk>/', AddDirectionDetailsView.as_view(),
+        name='new_direction_details'),
 ]
