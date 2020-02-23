@@ -1,18 +1,15 @@
 from django import forms
-from django.forms import (
-    BaseFormSet,
-    formset_factory
-)
+
 from .models import (
     Location,
-    Specimen
+    Specimen,
 )
 from trees.models import Tree
 
 
 class LocationForm(forms.ModelForm):
     """
-    A form for creating locations. 
+    A form for creating locations.
     """
 
     class Meta:
@@ -35,11 +32,17 @@ class SpecimenForm(forms.ModelForm):
             'latitude',
             'longhitude',
             'dbh',
-            'collection_date'
+            'collection_date',
+            'state_of_decay',
+            'bark_texture',
+            'stain',
         )
         labels = {
             'dbh': 'DBH',
-            'collection_date': 'Collection Date'
+            'collection_date': 'Collection Date',
+            'state_of_decay': 'State of Decay',
+            'bark_texture': 'Bark Texture',
+            'stain': 'Stain',
         }
 
     def __init__(self, *args, **kwargs):
@@ -48,5 +51,3 @@ class SpecimenForm(forms.ModelForm):
             Tree.objects.all())
         self.fields['location'].queryset = (
             Location.objects.all())
-        for visible in self.visible_fields():
-            visible.field.widget.attrs['class'] = 'form-control'

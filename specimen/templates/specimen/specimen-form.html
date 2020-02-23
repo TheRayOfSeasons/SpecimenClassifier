@@ -1,3 +1,5 @@
+{% load core_extras %}
+
 {% if form.non_field_errors %}
     <div class="alert alert-warning alert-dismissible fade show" role="alert">
     {{ form.non_field_errors|striptags }}
@@ -14,7 +16,7 @@
         <em class="text-danger">*</em>
     {% endif %}
 
-    {{ field }}
+    {{ field|addcss:'form-control' }}
 
     {% for error_message in field.errors %}
         <div class="invalid-feedback">

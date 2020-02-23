@@ -1,0 +1,196 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load core_extras %}
+
+{% block title %}
+    Edit Direction Details - {{ object.name }}
+{% endblock title %}
+
+{% block content %}
+    <form action="." method="post">
+        {% csrf_token %}
+        <div class="row text-center wow">
+            <h4 class="col-md-1"></h4>
+            <h4 class="col-md-2">N</h4>
+            <h4 class="col-md-2">E</h4>
+            <h4 class="col-md-2">W</h4>
+            <h4 class="col-md-2">S</h4>
+            <h4 class="col-md-2">Average</h4>
+        </div>
+
+        <div class="form-row mb-3" id="phLevels">
+            <label class="col-md-1" for="">PH Level</label>
+            <input class="col-md-2 form-control" type="number" step="0.01" name="northPH" id="northPH" {% if north_details %}value="{{ north_details.ph_level }}"{% endif %}>
+            <input class="col-md-2 form-control" type="number" step="0.01" name="eastPH" id="eastPH" {% if east_details %}value="{{ east_details.ph_level }}"{% endif %}>
+            <input class="col-md-2 form-control" type="number" step="0.01" name="westPH" id="westPH" {% if west_details %}value="{{ west_details.ph_level }}"{% endif %}>
+            <input class="col-md-2 form-control" type="number" step="0.01" name="southPH" id="southPH" {% if south_details %}value="{{ south_details.ph_level }}"{% endif %}>
+        </div>
+
+        <div class="form-row">
+            <label class="col-md-1">Epiphytes Present</label>
+            <div class="col-md-2" id="northEpiphytes">
+                <div class="row text-center mt-2" id="northButtons">
+                    <div class="col-6">
+                        <button type="button" class="btn btn-success" id="north-add">+</button>
+                    </div>
+                    <div class="col-6">
+                        <button type="button" class="btn btn-danger" id="north-min">-</button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-2" id="eastEpiphytes">
+                <div class="row text-center mt-2" id="eastButtons">
+                    <div class="col-6">
+                        <button type="button" class="btn btn-success" id="east-add">+</button>
+                    </div>
+                    <div class="col-6">
+                        <button type="button" class="btn btn-danger" id="east-min">-</button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-2" id="westEpiphytes">
+                <div class="row text-center mt-2" id="westButtons">
+                    <div class="col-6">
+                        <button type="button" class="btn btn-success" id="west-add">+</button>
+                    </div>
+                    <div class="col-6">
+                        <button type="button" class="btn btn-danger" id="west-min">-</button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-2" id="southEpiphytes">
+                <div class="row text-center mt-2" id="southButtons">
+                    <div class="col-6">
+                        <button type="button" class="btn btn-success" id="south-add">+</button>
+                    </div>
+                    <div class="col-6">
+                        <button type="button" class="btn btn-danger" id="south-min">-</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <input type="submit" value="Save">
+    </form>
+{% endblock content %}
+
+{% block extra_js %}
+    <script>
+        function addEpiphyteSelectBox(direction, initialValue)
+        {
+            const buttons = `#${direction}Buttons`;
+            const previousSelect = `#${direction}Epiphytes > select:last-of-type`;
+            const previousId = $(previousSelect).length > 0 ? parseInt(
+                ($(previousSelect).attr('id'))
+                .slice(-1)
+            ): 0;
+            const newId = (previousId + 1).toString();
+            let newSelect = '';
+
+            if(initialValue)
+            {
+                option_list = []
+                {% for epiphyte in epiphytes %}
+                    option_list.push(
+                        {
+                            template_part1: `<option value="{{ epiphyte.pk }}"`,
+                            template_part2: `>{{ epiphyte.name }}</option>`,
+                            pk: `{{ epiphyte.pk }}`
+                        }
+                    )
+                {% endfor %}
+
+                const select_options = option_list.map(element => {
+                    if(element.pk == initialValue)
+                    {
+                        element.template_part1 = `${element.template_part1} selected`
+                    }
+                    return `${element.template_part1}${element.template_part2}`
+                })
+                newSelect = `
+                <select class="form-control" name="${direction}Epiphyte-${newId}" id="${direction}Epiphyte-${newId}">
+                    <option value="">-----</option>
+                    ${select_options.join('')}
+                </select>`;
+            }
+            else
+            {
+                newSelect = `
+                <select class="form-control" name="${direction}Epiphyte-${newId}" id="${direction}Epiphyte-${newId}">
+                    <option value="">-----</option>
+                    {% for epiphyte in epiphytes %}
+                        <option value="{{ epiphyte.pk }}">{{ epiphyte.name }}</option>
+                    {% endfor %}
+                </select>`;
+            }
+
+            $(buttons).before(newSelect);
+        }
+
+        function removeEpiphyteSelectBox(direction)
+        {
+            const selectCount = $(`#${direction}Epiphytes > select`).length;
+            const lastSelect = `#${direction}Epiphytes > select:last-of-type`;
+
+            if(selectCount > 1)
+            {
+                $(lastSelect).remove();
+            }
+            else
+            {
+                $(lastSelect).val("").trigger('change');
+            }
+        }
+
+        function initializeForm()
+        {
+            let north = 0;
+            let east = 0
+            let west = 0;
+            let south = 0;
+
+            {% for pk in north_organisms %}
+                north += 1;
+                addEpiphyteSelectBox('north', '{{ pk }}');
+            {% endfor %}
+
+            {% for pk in east_organisms %}
+                east += 1;
+                addEpiphyteSelectBox('east', '{{ pk }}');
+            {% endfor %}
+
+            {% for pk in west_organisms %}
+                west += 1;
+                addEpiphyteSelectBox('west', '{{ pk }}');
+            {% endfor %}
+
+            {% for pk in south_organisms %}
+                south += 1;
+                addEpiphyteSelectBox('south', '{{ pk }}');
+            {% endfor %}
+
+            if(north == 0)
+                addEpiphyteSelectBox('north');
+            if(east == 0)
+                addEpiphyteSelectBox('east');
+            if(west == 0)
+                addEpiphyteSelectBox('west');
+            if(south == 0)
+                addEpiphyteSelectBox('south');
+        }
+
+        $(document).ready(() =>
+        {
+            initializeForm();
+
+            $('#north-add').click((event) => addEpiphyteSelectBox('north'));
+            $('#east-add').click((event) => addEpiphyteSelectBox('east'));
+            $('#west-add').click((event) => addEpiphyteSelectBox('west'));
+            $('#south-add').click((event) => addEpiphyteSelectBox('south'));
+
+            $('#north-min').click((event) => removeEpiphyteSelectBox('north'));
+            $('#east-min').click((event) => removeEpiphyteSelectBox('east'));
+            $('#west-min').click((event) => removeEpiphyteSelectBox('west'));
+            $('#south-min').click((event) => removeEpiphyteSelectBox('south'));
+        });
+    </script>
+{% endblock extra_js %}

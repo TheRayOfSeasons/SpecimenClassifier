@@ -1,25 +1,147 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load core_extras %}
 
 {% block title %}
-Specimen Detail - {{ object.name }}
+    Specimen Detail - {{ object.name }}
 {% endblock title %}
 
 {% block content %}
-<div class="card">
+<div class="card mr-auto mb-3">
+    <div class="card-header"><h2>{{ object.name }}</h2></div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-6">
+                <div class="row">
+                    <div class="col-6">Code: </div>
+                    <div class="col-6">{{ object.code }}</div>
+                </div>
+                <div class="row">
+                    <div class="col-6">Host Tree: </div>
+                    <div class="col-6">{{ object.host_tree }}</div>
+                </div>
+                <div class="row">
+                    <div class="col-6">Location: </div>
+                    <div class="col-6">{{ object.location }}</div>
+                </div>
+                <div class="row">
+                    <div class="col-6">Latitude: </div>
+                    <div class="col-6">{{ object.latitude }}</div>
+                </div>
+                <div class="row">
+                    <div class="col-6">Longhitude: </div>
+                    <div class="col-6">{{ object.longhitude }}</div>
+                </div>
+                <div class="row">
+                    <div class="col-6">DBH: </div>
+                    <div class="col-6">{{ object.dbh }}</div>
+                </div>
+                <div class="row">
+                    <div class="col-6">Collection Date: </div>
+                    <div class="col-6">{{ object.collection_date }}</div>
+                </div>
+                <div class="row">
+                    <div class="col-6">State of Decay: </div>
+                    <div class="col-6">{{ object.get_state_of_decay_display }}</div>
+                </div>
+                <div class="row">
+                    <div class="col-6">Bark Texture: </div>
+                    <div class="col-6">{{ object.get_bark_texture_display }}</div>
+                </div>
+                <div class="row">
+                    <div class="col-6">Filter paper stain: </div>
+                    <div class="col-6">
+                        {% if object.stain|is_false %}
+                            -
+                        {% else %}
+                            +
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            <div class="col-6">
+                <div class="d-flex flex-row-reverse">
+                    <a class="btn btn-warning" href="{% url 'specimen:update' object.pk %}">
+                        Edit
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="card mr-auto mb-3">
     <div class="card-header">
-        <h2>
-            {{ object.name }}
-        </h2>
+        <div class="d-flex justify-content-between">
+            <span>Direction Details</span>
+            <a class="btn btn-sm btn-warning" href="{% url 'specimen:new_direction_details' object.pk %}">
+                Edit
+            </a>
+        </div>
+    </div>
+    <div class="card-body text-center">
+        <div class="row">
+            <h4 class="col-md-2"></h4>
+            <h4 class="col-md-2">N</h4>
+            <h4 class="col-md-2">E</h4>
+            <h4 class="col-md-2">W</h4>
+            <h4 class="col-md-2">S</h4>
+            <h4 class="col-md-2">Average</h4>
+        </div>
+
+        <div class="row">
+            <h6 class="col-md-2">PH Level</h6>
+            <div class="col-md-2">
+                {{ north_details.ph_level|floatformat:2 }}
+            </div>
+            <div class="col-md-2">
+                {{ east_details.ph_level|floatformat:2 }}
+            </div>
+            <div class="col-md-2">
+                {{ west_details.ph_level|floatformat:2 }}
+            </div>
+            <div class="col-md-2">
+                {{ south_details.ph_level|floatformat:2 }}
+            </div>
+        </div>
+
+        <div class="row">
+            <h6 class="col-md-2">Epiphytes Present</h6>
+            <div class="col-md-2">
+                {% for organism in north_organisms %}
+                    <span>{{ organism.name }}, </span>
+                {% endfor %}
+            </div>
+            <div class="col-md-2">
+                {% for organism in east_organisms %}
+                    <span>{{ organism.name }}, </span>
+                {% endfor %}
+            </div>
+            <div class="col-md-2">
+                {% for organism in west_organisms %}
+                    <span>{{ organism.name }}, </span>
+                {% endfor %}
+            </div>
+            <div class="col-md-2">
+                {% for organism in south_organisms %}
+                    <span>{{ organism.name }}, </span>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="card mr-auto mb-3">
+    <div class="card-header">
+        <div class="d-flex justify-content-between">
+            <span>Direction Samples</span>
+            <a class="btn btn-sm btn-warning" href="{% url 'specimen:update' object.pk %}">
+                Edit
+            </a>
+        </div>
     </div>
     <div class="card-body">
-        <div>{{ object.code }}</div>
-        <div>{{ object.host_tree }}</div>
-        <div>{{ object.location }}</div>
-        <div>{{ object.latitude }}</div>
-        <div>{{ object.longhitude }}</div>
-        <div>{{ object.dbh }}</div>
-        <div>{{ object.collection_date }}</div>
+
     </div>
 </div>
 {% endblock content %}
