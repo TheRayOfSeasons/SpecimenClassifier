@@ -1,13 +1,9 @@
-{% extends 'base.html' %}
+{% extends 'default-form.html' %}
 
 {% block title %}
     Add Location
 {% endblock title %}
 
-{% block content %}
-    <form action="." method="post">
-        {% csrf_token %}
-        {{ form }}
-        <input type="submit" value="Submit">
-    </form>
-{% endblock content %}
+{% block form %}
+    {{ form }}
+{% endblock form %}

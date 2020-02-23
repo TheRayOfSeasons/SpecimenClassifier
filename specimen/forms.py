@@ -1,22 +1,15 @@
 from django import forms
-from django.forms import (
-    BaseFormSet,
-    formset_factory
-)
+
 from .models import (
     Location,
     Specimen,
-    NorthDetails,
-    EastDetails,
-    WestDetails,
-    SouthDetails
 )
 from trees.models import Tree
 
 
 class LocationForm(forms.ModelForm):
     """
-    A form for creating locations. 
+    A form for creating locations.
     """
 
     class Meta:
@@ -58,59 +51,3 @@ class SpecimenForm(forms.ModelForm):
             Tree.objects.all())
         self.fields['location'].queryset = (
             Location.objects.all())
-
-
-class NorthDetailsForm(forms.ModelForm):
-    class Meta:
-        model = NorthDetails
-        fields = (
-            'ph_level',
-        )
-        labels = {
-            'ph_level': 'PH Level'
-        }
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-
-
-class EastDetailsForm(forms.ModelForm):
-    class Meta:
-        model = EastDetails
-        fields = (
-            'ph_level',
-        )
-        labels = {
-            'ph_level': 'PH Level'
-        }
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-
-
-class WestDetailsForm(forms.ModelForm):
-    class Meta:
-        model = WestDetails
-        fields = (
-            'ph_level',
-        )
-        labels = {
-            'ph_level': 'PH Level'
-        }
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-
-
-class SouthDetailsForm(forms.ModelForm):
-    class Meta:
-        model = SouthDetails
-        fields = (
-            'ph_level',
-        )
-        labels = {
-            'ph_level': 'PH Level'
-        }
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)

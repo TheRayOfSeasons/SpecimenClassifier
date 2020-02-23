@@ -34,6 +34,8 @@ INSTALLED_APPS = [
     # local Apps
     'core',
     'core.templatetags',
+    'direction',
+    'epiphytes',
     'specimen',
     'trees',
 
