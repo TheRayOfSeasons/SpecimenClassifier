@@ -1,4 +1,4 @@
-<h3>Specimen Images</h3>
+{% load static %}
 
 <div class="container">
     <div class="row text-center">
@@ -10,16 +10,16 @@
 
     <div class="row">
         <div id="northImages" class="col-md-3">
-            <input type="file" name="fileupload" value="fileupload" id="northImageButton-1" onChange="displayUploaded(this, 'north', 1)">
+            <input type="file" name="northImage-1" id="northImageButton-1" onChange="displayUploaded(this, 'north', 1)">
         </div>
         <div id="eastImages" class="col-md-3">
-            <input type="file" name="fileupload" value="fileupload" id="eastImageButton-1" onChange="displayUploaded(this, 'east', 1)">
+            <input type="file" name="eastImage-1" id="eastImageButton-1" onChange="displayUploaded(this, 'east', 1)">
         </div>
         <div id="westImages" class="col-md-3">
-            <input type="file" name="fileupload" value="fileupload" id="westImageButton-1" onChange="displayUploaded(this, 'west', 1)">
+            <input type="file" name="westImage-1" value="fileupload" id="westImageButton-1" onChange="displayUploaded(this, 'west', 1)">
         </div>
         <div id="southImages" class="col-md-3">
-            <input type="file" name="fileupload" value="fileupload" id="southImageButton-1" onChange="displayUploaded(this, 'south', 1)">
+            <input type="file" name="southImage-1" value="fileupload" id="southImageButton-1" onChange="displayUploaded(this, 'south', 1)">
         </div>
     </div>
 </div>

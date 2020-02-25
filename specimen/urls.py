@@ -7,6 +7,7 @@ from .views import (
     SpecimenDetailView,
     AddLocationView,
     AddDirectionDetailsView,
+    SpecimenSamplesFormView
 )
 
 
@@ -25,4 +26,6 @@ urlpatterns = [
         name='new_location'),
     path('new-direction-details/<int:pk>/', AddDirectionDetailsView.as_view(),
         name='new_direction_details'),
+    path('direction-samples/<int:pk>/', SpecimenSamplesFormView.as_view(),
+        name='samples'),
 ]

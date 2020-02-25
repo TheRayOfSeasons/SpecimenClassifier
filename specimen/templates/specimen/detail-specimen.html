@@ -135,13 +135,41 @@
     <div class="card-header">
         <div class="d-flex justify-content-between">
             <span>Direction Samples</span>
-            <a class="btn btn-sm btn-warning" href="{% url 'specimen:update' object.pk %}">
+            <a class="btn btn-sm btn-warning" href="{% url 'specimen:samples' object.pk %}">
                 Edit
             </a>
         </div>
     </div>
-    <div class="card-body">
+    <div class="card-body text-center">
+        <div class="row">
+            <h4 class="col-md-3">N</h4>
+            <h4 class="col-md-3">E</h4>
+            <h4 class="col-md-3">W</h4>
+            <h4 class="col-md-3">S</h4>
+        </div>
 
+        <div class="row">
+            <div class="col-md-3">
+                {% for image in object.northimages_set.all %}
+                    <img src="{{ image.image }}" alt="">
+                {% endfor %}
+            </div>
+            <div class="col-md-3">
+                {% for image in object.eastimages_set.all %}
+                    <img src="{{ image.image }}" alt="">
+                {% endfor %}
+            </div>
+            <div class="col-md-3">
+                {% for image in object.westimages_set.all %}
+                    <img src="{{ image.image }}" alt="">
+                {% endfor %}
+            </div>
+            <div class="col-md-3">
+                {% for image in object.southimages_set.all %}
+                    <img src="{{ image.image }}" alt="">
+                {% endfor %}
+            </div>
+        </div>
     </div>
 </div>
 {% endblock content %}

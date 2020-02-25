@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load core_extras %}
+
+{% block title %}
+    Specimen Detail - {{ object.name }}
+{% endblock title %}
+
+{% block content %}
+    <h3>Specimen Images</h3>
+    <form action="" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {% include 'specimen/specimen-images-form.html' %}
+        <input class="mt-5" type="submit" value="Submit">
+    </form>
+{% endblock content %}

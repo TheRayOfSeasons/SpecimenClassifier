@@ -12,20 +12,26 @@ const buildCollectionSelector = (direction) =>
 
 const buildImageButtonSelector = (direction, number) =>
 {
-    return `#${direction}ImageButton-${number}`;
+    return `${direction}ImageButton-${number}`;
 }
 
-const generateNewImageButton = (direction, number) => 
+const buildImageButtonName = (direction, number) =>
+{
+    return `${direction}Image-${number}`
+}
+
+const generateNewImageButton = (direction, number) =>
 {
     let i = number + 1;
+    let name = buildImageButtonName(direction, i);
     let selector = buildImageButtonSelector(direction, i);
-    return `<input type="file" name="fileupload" value="fileupload" id="${selector}" onChange="displayUploaded(this, '${direction}', ${i})">`
+    return `<input type="file" name="${name}" value="fileupload" id="${selector}" onChange="displayUploaded(this, '${direction}', ${i})">`
 }
 
 const insertImage = (direction, number) =>
 {
     const imageCollection = buildCollectionSelector(direction);
-    const generateImageElement = new Promise((resolve) => 
+    const generateImageElement = new Promise((resolve) =>
     {
         let i = number;
         let imageID = buildImageId(direction, i);
@@ -45,14 +51,14 @@ const insertImage = (direction, number) =>
     });
 }
 
-const displayUploaded = (input, direction, number) => 
+const displayUploaded = (input, direction, number) =>
 {
     insertImage(direction, number).then((id) => {
-        if (input.files && input.files[0]) 
+        if (input.files && input.files[0])
         {
             var reader = new FileReader();
 
-            reader.onload = (e) => 
+            reader.onload = (e) =>
             {
                 $(id)
                     .attr('src', e.target.result)

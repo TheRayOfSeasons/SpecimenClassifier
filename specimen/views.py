@@ -20,6 +20,10 @@ from direction.models import (
     EastOrganism,
     WestOrganism,
     SouthOrganism,
+    NorthImages,
+    EastImages,
+    WestImages,
+    SouthImages,
 )
 from trees.models import Tree
 from .models import (
@@ -149,11 +153,11 @@ class AddDirectionDetailsView(View):
         south_organisms = specimen.southorganism_set.all()
 
         for organisms, model in [
-                (north_organisms, NorthOrganism),
-                (east_organisms, EastOrganism),
-                (west_organisms, WestOrganism),
-                (south_organisms, SouthOrganism)
-            ]:
+                    (north_organisms, NorthOrganism),
+                    (east_organisms, EastOrganism),
+                    (west_organisms, WestOrganism),
+                    (south_organisms, SouthOrganism)
+                ]:
             self.delete_organisms(organisms, model)
 
     def delete_organisms(self, organisms, model):
@@ -163,11 +167,11 @@ class AddDirectionDetailsView(View):
 
     def save_details(self, specimen, north, east, west, south):
         for direction, model in [
-                (north, NorthDetails),
-                (east, EastDetails),
-                (west, WestDetails),
-                (south, SouthDetails),
-            ]:
+                    (north, NorthDetails),
+                    (east, EastDetails),
+                    (west, WestDetails),
+                    (south, SouthDetails),
+                ]:
             details, created = model.objects.get_or_create(specimen=specimen)
             if direction['ph_level']:
                 details.ph_level = direction['ph_level']
@@ -257,12 +261,51 @@ class AddDirectionDetailsView(View):
         self.delete_excluded_organisms(specimen)
 
         for organism_set, organism_model in [
-                (north_organisms_pks, NorthOrganism),
-                (east_organisms_pks, EastOrganism),
-                (west_organisms_pks, WestOrganism),
-                (south_organisms_pks, SouthOrganism)
-            ]:
+                    (north_organisms_pks, NorthOrganism),
+                    (east_organisms_pks, EastOrganism),
+                    (west_organisms_pks, WestOrganism),
+                    (south_organisms_pks, SouthOrganism)
+                ]:
             self.save_organisms(specimen, organism_set, organism_model)
+
+        return HttpResponseRedirect(reverse_lazy('specimen:detail',
+            args=[pk]))
+
+
+class SpecimenSamplesFormView(View):
+    template_name = 'specimen/direction-samples.html'
+
+    def segregate_images(self, post_request, direction):
+        return list(
+            slicedict(
+                post_request,
+                f'{direction}Image',
+                removeEmpty=True)
+            .values()
+        )
+
+    def get(self, request, pk, *args, **kwargs):
+        specimen = Specimen.objects.get(id=pk)
+        return render(request, self.template_name, context={})
+
+    def post(self, request, pk, *args, **kwargs):
+        specimen = Specimen.objects.get(id=pk)
+
+        north_images = self.segregate_images(request.POST, 'north')
+        east_images = self.segregate_images(request.POST, 'east')
+        west_images = self.segregate_images(request.POST, 'west')
+        south_images = self.segregate_images(request.POST, 'south')
+
+        for images, model in [
+                    (north_images, NorthImages),
+                    (east_images, EastImages),
+                    (west_images, WestImages),
+                    (south_images, SouthImages),
+                ]:
+            if len(images) > 0:
+                for image in images:
+                    model.objects.get_or_create(
+                        specimen=specimen, image=image)
 
         return HttpResponseRedirect(reverse_lazy('specimen:detail',
             args=[pk]))
