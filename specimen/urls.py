@@ -7,7 +7,11 @@ from .views import (
     SpecimenDetailView,
     AddLocationView,
     AddDirectionDetailsView,
-    SpecimenSamplesFormView
+    SpecimenSamplesFormView,
+    NorthDeleteSampleImageView,
+    EastDeleteSampleImageView,
+    WestDeleteSampleImageView,
+    SouthDeleteSampleImageView
 )
 
 
@@ -28,4 +32,12 @@ urlpatterns = [
         name='new_direction_details'),
     path('direction-samples/<int:pk>/', SpecimenSamplesFormView.as_view(),
         name='samples'),
+    path('north/delete/<int:pk>/', NorthDeleteSampleImageView.as_view(),
+        name='delete_north'),
+    path('east/delete/<int:pk>/', EastDeleteSampleImageView.as_view(),
+        name='delete_east'),
+    path('west/delete/<int:pk>/', WestDeleteSampleImageView.as_view(),
+        name='delete_west'),
+    path('south/delete/<int:pk>/', SouthDeleteSampleImageView.as_view(),
+        name='delete_south'),
 ]

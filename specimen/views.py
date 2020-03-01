@@ -6,7 +6,8 @@ from django.views.generic import (
     CreateView,
     ListView,
     DetailView,
-    UpdateView
+    UpdateView,
+    DeleteView,
 )
 from django.views import View
 
@@ -193,7 +194,7 @@ class AddDirectionDetailsView(View):
             east_details = EastDetails.objects.get(specimen=specimen)
         except EastDetails.DoesNotExist:
             east_details = None
-        
+
         try:
             west_details = WestDetails.objects.get(specimen=specimen)
         except WestDetails.DoesNotExist:
@@ -291,10 +292,10 @@ class SpecimenSamplesFormView(View):
     def post(self, request, pk, *args, **kwargs):
         specimen = Specimen.objects.get(id=pk)
 
-        north_images = self.segregate_images(request.POST, 'north')
-        east_images = self.segregate_images(request.POST, 'east')
-        west_images = self.segregate_images(request.POST, 'west')
-        south_images = self.segregate_images(request.POST, 'south')
+        north_images = self.segregate_images(request.FILES, 'north')
+        east_images = self.segregate_images(request.FILES, 'east')
+        west_images = self.segregate_images(request.FILES, 'west')
+        south_images = self.segregate_images(request.FILES, 'south')
 
         for images, model in [
                     (north_images, NorthImages),
@@ -304,11 +305,45 @@ class SpecimenSamplesFormView(View):
                 ]:
             if len(images) > 0:
                 for image in images:
-                    model.objects.get_or_create(
-                        specimen=specimen, image=image)
+                    direction_image, created = (
+                        model.objects.get_or_create(
+                            specimen=specimen, image=image))
+                    direction_image.save()
 
         return HttpResponseRedirect(reverse_lazy('specimen:detail',
             args=[pk]))
+
+
+class NorthDeleteSampleImageView(DeleteView):
+    model = NorthImages
+
+    def get_success_url(self, **kwargs):
+        return reverse_lazy('specimen:detail',
+            kwargs={'pk': self.object.specimen.pk })
+
+
+class EastDeleteSampleImageView(DeleteView):
+    model = EastImages
+
+    def get_success_url(self, **kwargs):
+        return reverse_lazy('specimen:detail',
+            kwargs={'pk': self.object.specimen.pk })
+
+
+class WestDeleteSampleImageView(DeleteView):
+    model = WestImages
+
+    def get_success_url(self, **kwargs):
+        return reverse_lazy('specimen:detail',
+            kwargs={'pk': self.object.specimen.pk })
+
+
+class SouthDeleteSampleImageView(DeleteView):
+    model = SouthImages
+
+    def get_success_url(self, **kwargs):
+        return reverse_lazy('specimen:detail',
+            kwargs={'pk': self.object.specimen.pk })
 
 
 class AddLocationView(CreateView):
@@ -319,4 +354,3 @@ class AddLocationView(CreateView):
     template_name = 'specimen/add-location.html'
     model = Location
     form_class = LocationForm
-

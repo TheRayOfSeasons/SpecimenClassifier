@@ -1,5 +1,6 @@
 from django.db import models
 from django.utils.translation import gettext_lazy as _
+from django.core.files.storage import FileSystemStorage
 
 from epiphytes.models import EpiphyticOrganism
 from specimen.models import Specimen
@@ -81,32 +82,33 @@ class DirectionImagesModel(models.Model):
 
 
 class NorthImages(DirectionImagesModel):
-    image = models.ImageField(blank=True, null=True, upload_to=(
-        f'specimen_images/north/'))
+    image = models.ImageField(blank=True, null=True,
+        upload_to='specimen_images/north/')
 
     def __str__(self):
         return f'{self.specimen.name} | {self.image}'
 
 
 class EastImages(DirectionImagesModel):
-    image = models.ImageField(blank=True, null=True, upload_to=(
-        f'specimen_images/east/'))
+    image = models.ImageField(blank=True, null=True,
+        upload_to='specimen_images/east/')
 
     def __str__(self):
         return f'{self.specimen.name} | {self.image}'
 
 
 class WestImages(DirectionImagesModel):
-    image = models.ImageField(blank=True, null=True, upload_to=(
-        f'specimen_images/west/'))
+    image = models.ImageField(blank=True, null=True,
+        upload_to='specimen_images/west/',
+        storage=FileSystemStorage())
 
     def __str__(self):
         return f'{specimen.name} | {self.image}'
 
 
 class SouthImages(DirectionImagesModel):
-    image = models.ImageField(blank=True, null=True, upload_to=(
-        f'specimen_images/south/'))
+    image = models.ImageField(blank=True, null=True,
+        upload_to='specimen_images/south/')
 
     def __str__(self):
         return f'{self.specimen.name} | {self.image}'

@@ -1,0 +1,33 @@
+<div class="modal modal-xl fade" id="imageModal" tabindex="-1" role="dialog" aria-labelledby="imageModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">{{ object.name }} - <span id="direction"></span></h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body d-flex justify-content-around">
+          <img id='modalImage'>
+        </div>
+        <div class="modal-footer">
+			<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+			<form method="POST" id="deleteForm" action="">
+				{% csrf_token %}
+				<input  class="btn btn-danger"type="submit" value="Delete">
+			</form>
+        </div>
+      </div>
+    </div>
+</div>
+
+<script>
+	$(document).ready(function(){
+        console.log('called');
+		$('#imageModal').on('show.bs.modal', function(confirm) {
+            $(this).find('#modalImage').attr('src', $(confirm.relatedTarget).data('image'));
+			$(this).find('#deleteForm').attr('action', $(confirm.relatedTarget).data('delete'));
+			$(this).find('#direction').text($(confirm.relatedTarget).data('direction'));
+		});
+	});
+</script>
