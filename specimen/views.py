@@ -133,6 +133,16 @@ class UpdateSpecimenView(UpdateView):
             kwargs={'pk': self.object.pk})
 
 
+class SpecimenDeleteView(DeleteView):
+    """
+    View for deleting specimens.
+    """
+
+    model = Specimen
+
+    def get_success_url(self, **kwargs):
+        return reverse_lazy('specimen:list')
+
 class AddDirectionDetailsView(View):
     template_name = 'specimen/direction-details.html'
 

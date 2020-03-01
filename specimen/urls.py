@@ -6,6 +6,7 @@ from .views import (
     UpdateSpecimenView,
     SpecimenListView,
     SpecimenDetailView,
+    SpecimenDeleteView,
     AddLocationView,
     AddDirectionDetailsView,
     SpecimenSamplesFormView,
@@ -43,4 +44,6 @@ urlpatterns = [
         name='delete_south'),
     path('all_specimens_report/', GenerateAllSpecimensView.as_view(),
         name='all_specimens_report'),
+    path('delete/<int:pk>/', SpecimenDeleteView.as_view(),
+        name='delete'),
 ]
