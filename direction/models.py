@@ -1,3 +1,5 @@
+from statistics import mean
+
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 from django.core.files.storage import FileSystemStorage
@@ -15,7 +17,19 @@ class Directions(models.TextChoices):
 
 class DirectionSampleDetailsModel(models.Model):
     specimen = models.OneToOneField(Specimen, on_delete=models.CASCADE)
-    ph_level = models.DecimalField(
+    ph_level_1 = models.DecimalField(
+        max_digits=19,
+        decimal_places=2,
+        null=True,
+        blank=True,
+    )
+    ph_level_2 = models.DecimalField(
+        max_digits=19,
+        decimal_places=2,
+        null=True,
+        blank=True,
+    )
+    ph_level_3 = models.DecimalField(
         max_digits=19,
         decimal_places=2,
         null=True,
@@ -25,18 +39,30 @@ class DirectionSampleDetailsModel(models.Model):
     class Meta:
         abstract = True
 
+    @property
+    def average_ph(self):
+        ph_list = []
+        for ph in [
+                    self.ph_level_1,
+                    self.ph_level_2,
+                    self.ph_level_3
+                ]:
+            if ph:
+                ph_list.append(ph)
+        return round(mean(ph_list), 2)
+
 
 class NorthDetails(DirectionSampleDetailsModel):
     def __str__(self):
         return f'{self.specimen.name}'
 
 
-class WestDetails(DirectionSampleDetailsModel):
+class EastDetails(DirectionSampleDetailsModel):
     def __str__(self):
         return f'{self.specimen.name}'
 
 
-class EastDetails(DirectionSampleDetailsModel):
+class WestDetails(DirectionSampleDetailsModel):
     def __str__(self):
         return f'{self.specimen.name}'
 
@@ -59,12 +85,12 @@ class NorthOrganism(DirectionOrganism):
         return f'{self.specimen.name}'
 
 
-class WestOrganism(DirectionOrganism):
+class EastOrganism(DirectionOrganism):
     def __str__(self):
         return f'{self.specimen.name}'
 
 
-class EastOrganism(DirectionOrganism):
+class WestOrganism(DirectionOrganism):
     def __str__(self):
         return f'{self.specimen.name}'
 

@@ -13,7 +13,9 @@ class NorthDetailsForm(forms.ModelForm):
     class Meta:
         model = NorthDetails
         fields = [
-            'ph_level'
+            'ph_level_1',
+            'ph_level_2',
+            'ph_level_3',
         ]
 
     def __init__(self, specimen, *args, **kwargs):
@@ -26,7 +28,9 @@ class EastDetailsForm(forms.ModelForm):
     class Meta:
         model = EastDetails
         fields = [
-            'ph_level'
+            'ph_level_1',
+            'ph_level_2',
+            'ph_level_3',
         ]
 
     def __init__(self, specimen, *args, **kwargs):
@@ -39,7 +43,9 @@ class WestDetailsForm(forms.ModelForm):
     class Meta:
         model = WestDetails
         fields = [
-            'ph_level'
+            'ph_level_1',
+            'ph_level_2',
+            'ph_level_3',
         ]
 
     def __init__(self, specimen, *args, **kwargs):
@@ -52,7 +58,9 @@ class SouthDetailsForm(forms.ModelForm):
     class Meta:
         model = SouthDetails
         fields = [
-            'ph_level'
+            'ph_level_1',
+            'ph_level_2',
+            'ph_level_3',
         ]
 
     def __init__(self, specimen, *args, **kwargs):

@@ -10,7 +10,7 @@
     <form action="." method="post">
         {% csrf_token %}
         <div class="row text-center wow">
-            <h4 class="col-md-1"></h4>
+            <h4 class="col-md-2"></h4>
             <h4 class="col-md-2">N</h4>
             <h4 class="col-md-2">E</h4>
             <h4 class="col-md-2">W</h4>
@@ -19,15 +19,35 @@
         </div>
 
         <div class="form-row mb-3" id="phLevels">
-            <label class="col-md-1" for="">PH Level</label>
-            <input class="col-md-2 form-control" type="number" step="0.01" name="northPH" id="northPH" {% if north_details %}value="{{ north_details.ph_level }}"{% endif %}>
-            <input class="col-md-2 form-control" type="number" step="0.01" name="eastPH" id="eastPH" {% if east_details %}value="{{ east_details.ph_level }}"{% endif %}>
-            <input class="col-md-2 form-control" type="number" step="0.01" name="westPH" id="westPH" {% if west_details %}value="{{ west_details.ph_level }}"{% endif %}>
-            <input class="col-md-2 form-control" type="number" step="0.01" name="southPH" id="southPH" {% if south_details %}value="{{ south_details.ph_level }}"{% endif %}>
+            <div class="col-md-2">
+                <label>1st PH Level</label>
+                <label>2nd PH Level</label>
+                <label>3rd PH Level</label>
+            </div>
+            <div class="col-md-2">
+                <input class="form-control" type="number" step="0.01" name="northPH1" id="northPH1" {% if north_details %}value="{{ north_details.ph_level_1 }}"{% endif %}>
+                <input class="form-control" type="number" step="0.01" name="northPH2" id="northPH2" {% if north_details %}value="{{ north_details.ph_level_2 }}"{% endif %}>
+                <input class="form-control" type="number" step="0.01" name="northPH3" id="northPH3" {% if north_details %}value="{{ north_details.ph_level_3 }}"{% endif %}>
+            </div>
+            <div class="col-md-2">
+                <input class="form-control" type="number" step="0.01" name="eastPH1" id="eastPH1" {% if east_details %}value="{{ east_details.ph_level_1 }}"{% endif %}>
+                <input class="form-control" type="number" step="0.01" name="eastPH2" id="eastPH2" {% if east_details %}value="{{ east_details.ph_level_2 }}"{% endif %}>
+                <input class="form-control" type="number" step="0.01" name="eastPH3" id="eastPH3" {% if east_details %}value="{{ east_details.ph_level_3 }}"{% endif %}>
+            </div>
+            <div class="col-md-2">
+                <input class="form-control" type="number" step="0.01" name="westPH1" id="westPH1" {% if west_details %}value="{{ west_details.ph_level_1 }}"{% endif %}>
+                <input class="form-control" type="number" step="0.01" name="westPH2" id="westPH2" {% if west_details %}value="{{ west_details.ph_level_2 }}"{% endif %}>
+                <input class="form-control" type="number" step="0.01" name="westPH3" id="westPH3" {% if west_details %}value="{{ west_details.ph_level_3 }}"{% endif %}>
+            </div>
+            <div class="col-md-2">
+                <input class="form-control" type="number" step="0.01" name="southPH1" id="southPH1" {% if south_details %}value="{{ south_details.ph_level_1 }}"{% endif %}>
+                <input class="form-control" type="number" step="0.01" name="southPH2" id="southPH2" {% if south_details %}value="{{ south_details.ph_level_2 }}"{% endif %}>
+                <input class="form-control" type="number" step="0.01" name="southPH3" id="southPH3" {% if south_details %}value="{{ south_details.ph_level_3 }}"{% endif %}>
+            </div>
         </div>
 
         <div class="form-row">
-            <label class="col-md-1">Epiphytes Present</label>
+            <label class="col-md-2">Epiphytes Present</label>
             <div class="col-md-2" id="northEpiphytes">
                 <div class="row text-center mt-2" id="northButtons">
                     <div class="col-6">

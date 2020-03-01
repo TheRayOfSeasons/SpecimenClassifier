@@ -1,6 +1,7 @@
 from django.urls import path
 
 from .views import (
+    GenerateAllSpecimensView,
     CreateSpecimenView,
     UpdateSpecimenView,
     SpecimenListView,
@@ -40,4 +41,6 @@ urlpatterns = [
         name='delete_west'),
     path('south/delete/<int:pk>/', SouthDeleteSampleImageView.as_view(),
         name='delete_south'),
+    path('all_specimens_report/', GenerateAllSpecimensView.as_view(),
+        name='all_specimens_report'),
 ]

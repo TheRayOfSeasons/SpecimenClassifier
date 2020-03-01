@@ -51,3 +51,20 @@ class Specimen(models.Model):
 
     def __str__(self):
         return f'{self.name} - {self.code}'
+
+    @property
+    def get_distinct_organisms(self):
+        north = self.northorganism_set.all()
+        east = self.eastorganism_set.all()
+        west = self.westorganism_set.all()
+        south = self.southorganism_set.all()
+
+        distinct_organisms = []
+
+        for collection in [north, east, west, south]:
+            for item in collection:
+                organism = item.epiphytic_organism
+                if organism.name not in distinct_organisms:
+                    distinct_organisms.append(organism.name)
+
+        return distinct_organisms

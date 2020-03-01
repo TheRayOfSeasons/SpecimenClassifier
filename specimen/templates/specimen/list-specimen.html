@@ -8,6 +8,11 @@
 {% block content %}
 <div class="container">
     <div class="d-flex flex-row-reverse mb-3" id="header-buttons">
+        <a href="{% url 'specimen:all_specimens_report' %}">
+            <button class="btn btn-primary">
+                Generate Report
+            </button>
+        </a>
         <a href="{% url 'specimen:create' %}">
             <button class="btn btn-success">
                 Add Specimen

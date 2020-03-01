@@ -41,9 +41,13 @@ from direction.forms import (
     WestDetailsForm,
     SouthDetailsForm,
 )
-from core.helpers import (
-    slicedict
-)
+from core.helpers import slicedict
+from core.reports import AllSpecimens
+from core.views import ReportView
+
+
+class GenerateAllSpecimensView(ReportView):
+    report_class = AllSpecimens
 
 
 class CreateSpecimenView(CreateView):
@@ -174,8 +178,13 @@ class AddDirectionDetailsView(View):
                     (south, SouthDetails),
                 ]:
             details, created = model.objects.get_or_create(specimen=specimen)
-            if direction['ph_level']:
-                details.ph_level = direction['ph_level']
+            if direction['ph_level_1']:
+                details.ph_level_1 = direction['ph_level_1']
+            if direction['ph_level_2']:
+                details.ph_level_2 = direction['ph_level_2']
+            if direction['ph_level_3']:
+                details.ph_level_3 = direction['ph_level_3']
+
             details.save()
 
     def get(self, request, pk, *args, **kwargs):
@@ -228,22 +237,41 @@ class AddDirectionDetailsView(View):
     def post(self, request, pk, *args, **kwargs):
         specimen = Specimen.objects.get(id=pk)
 
-        north_ph = request.POST['northPH']
-        east_ph = request.POST['eastPH']
-        west_ph = request.POST['westPH']
-        south_ph = request.POST['southPH']
+        north_ph_1 = request.POST['northPH1']
+        north_ph_2 = request.POST['northPH2']
+        north_ph_3 = request.POST['northPH3']
+
+        east_ph_1 = request.POST['eastPH1']
+        east_ph_2 = request.POST['eastPH2']
+        east_ph_3 = request.POST['eastPH3']
+
+        west_ph_1 = request.POST['westPH1']
+        west_ph_2 = request.POST['westPH2']
+        west_ph_3 = request.POST['westPH3']
+
+        south_ph_1 = request.POST['southPH1']
+        south_ph_2 = request.POST['southPH2']
+        south_ph_3 = request.POST['southPH3']
 
         north_details = {
-            'ph_level': north_ph
+            'ph_level_1': north_ph_1,
+            'ph_level_2': north_ph_2,
+            'ph_level_3': north_ph_3,
         }
         east_details = {
-            'ph_level': east_ph
+            'ph_level_1': east_ph_1,
+            'ph_level_2': east_ph_2,
+            'ph_level_3': east_ph_3,
         }
         west_details = {
-            'ph_level': west_ph
+            'ph_level_1': west_ph_1,
+            'ph_level_2': west_ph_2,
+            'ph_level_3': west_ph_3,
         }
         south_details = {
-            'ph_level': south_ph
+            'ph_level_1': south_ph_1,
+            'ph_level_2': south_ph_2,
+            'ph_level_3': south_ph_3,
         }
 
         self.save_details(
