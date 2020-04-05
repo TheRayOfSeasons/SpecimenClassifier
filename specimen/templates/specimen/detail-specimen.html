@@ -54,24 +54,6 @@
                     <div class="col-6">Collection Date: </div>
                     <div class="col-6">{{ object.collection_date }}</div>
                 </div>
-                <div class="row">
-                    <div class="col-6">State of Decay: </div>
-                    <div class="col-6">{{ object.get_state_of_decay_display }}</div>
-                </div>
-                <div class="row">
-                    <div class="col-6">Bark Texture: </div>
-                    <div class="col-6">{{ object.get_bark_texture_display }}</div>
-                </div>
-                <div class="row">
-                    <div class="col-6">Filter paper stain: </div>
-                    <div class="col-6">
-                        {% if object.stain|is_false %}
-                            -
-                        {% else %}
-                            +
-                        {% endif %}
-                    </div>
-                </div>
             </div>
             <div class="col-6">
                 <div class="d-flex flex-row-reverse">

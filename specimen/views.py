@@ -1,7 +1,8 @@
+from django.core.exceptions import ObjectDoesNotExist
+from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse, reverse_lazy
-from django.http import HttpResponse, HttpResponseRedirect
-from django.core.exceptions import ObjectDoesNotExist
+from django.views import View
 from django.views.generic import (
     CreateView,
     ListView,
@@ -9,9 +10,17 @@ from django.views.generic import (
     UpdateView,
     DeleteView,
 )
-from django.views import View
 
-from epiphytes.models import EpiphyticOrganism
+from core.helpers import slicedict
+from core.helpers import to_dictionary_list
+from core.reports import AllSpecimens
+from core.views import ReportView
+from direction.forms import (
+    NorthDetailsForm,
+    EastDetailsForm,
+    WestDetailsForm,
+    SouthDetailsForm,
+)
 from direction.models import (
     NorthDetails,
     EastDetails,
@@ -26,7 +35,11 @@ from direction.models import (
     WestImages,
     SouthImages,
 )
+from direction.models import StateOfDecay
+from direction.models import Texture
+from epiphytes.models import EpiphyticOrganism
 from trees.models import Tree
+
 from .models import (
     Specimen,
     Location
@@ -35,15 +48,6 @@ from .forms import (
     SpecimenForm,
     LocationForm,
 )
-from direction.forms import (
-    NorthDetailsForm,
-    EastDetailsForm,
-    WestDetailsForm,
-    SouthDetailsForm,
-)
-from core.helpers import slicedict
-from core.reports import AllSpecimens
-from core.views import ReportView
 
 
 class GenerateAllSpecimensView(ReportView):
@@ -194,6 +198,12 @@ class AddDirectionDetailsView(View):
                 details.ph_level_2 = direction['ph_level_2']
             if direction['ph_level_3']:
                 details.ph_level_3 = direction['ph_level_3']
+            if direction['state_of_decay']:
+                details.state_of_decay = direction['state_of_decay']
+            if direction['texture']:
+                details.texture = direction['texture']
+            if direction['stain']:
+                details.stain = True if direction['stain'] == 'on' else False
 
             details.save()
 
@@ -242,46 +252,73 @@ class AddDirectionDetailsView(View):
         context['south_organisms'] = [
             i.epiphytic_organism.pk for i in specimen.southorganism_set.all()]
 
+        context['state_of_decay_choices'] = to_dictionary_list(StateOfDecay.choices)
+        context['texture_choices'] = to_dictionary_list(Texture.choices)
+
         return render(request, self.template_name, context=context)
 
     def post(self, request, pk, *args, **kwargs):
         specimen = Specimen.objects.get(id=pk)
 
-        north_ph_1 = request.POST['northPH1']
-        north_ph_2 = request.POST['northPH2']
-        north_ph_3 = request.POST['northPH3']
+        north_ph_1 = request.POST.get('northPH1')
+        north_ph_2 = request.POST.get('northPH2')
+        north_ph_3 = request.POST.get('northPH3')
+        north_state_of_decay = request.POST.get('northStateOfDecay')
+        north_texture = request.POST.get('northTexture')
+        north_stain = request.POST.get('northStain')
 
-        east_ph_1 = request.POST['eastPH1']
-        east_ph_2 = request.POST['eastPH2']
-        east_ph_3 = request.POST['eastPH3']
+        east_ph_1 = request.POST.get('eastPH1')
+        east_ph_2 = request.POST.get('eastPH2')
+        east_ph_3 = request.POST.get('eastPH3')
+        east_state_of_decay = request.POST.get('eastStateOfDecay')
+        east_texture = request.POST.get('eastTexture')
+        east_stain = request.POST.get('eastStain')
 
-        west_ph_1 = request.POST['westPH1']
-        west_ph_2 = request.POST['westPH2']
-        west_ph_3 = request.POST['westPH3']
+        west_ph_1 = request.POST.get('westPH1')
+        west_ph_2 = request.POST.get('westPH2')
+        west_ph_3 = request.POST.get('westPH3')
+        west_state_of_decay = request.POST.get('westStateOfDecay')
+        west_texture = request.POST.get('westTexture')
+        west_stain = request.POST.get('westStain')
 
-        south_ph_1 = request.POST['southPH1']
-        south_ph_2 = request.POST['southPH2']
-        south_ph_3 = request.POST['southPH3']
+        south_ph_1 = request.POST.get('southPH1')
+        south_ph_2 = request.POST.get('southPH2')
+        south_ph_3 = request.POST.get('southPH3')
+        south_state_of_decay = request.POST.get('southStateOfDecay')
+        south_texture = request.POST.get('southTexture')
+        south_stain = request.POST.get('southStain')
 
         north_details = {
             'ph_level_1': north_ph_1,
             'ph_level_2': north_ph_2,
             'ph_level_3': north_ph_3,
+            'state_of_decay': north_state_of_decay,
+            'texture': north_texture,
+            'stain': north_stain,
         }
         east_details = {
             'ph_level_1': east_ph_1,
             'ph_level_2': east_ph_2,
             'ph_level_3': east_ph_3,
+            'state_of_decay': east_state_of_decay,
+            'texture': east_texture,
+            'stain': east_stain,
         }
         west_details = {
             'ph_level_1': west_ph_1,
             'ph_level_2': west_ph_2,
             'ph_level_3': west_ph_3,
+            'state_of_decay': west_state_of_decay,
+            'texture': west_texture,
+            'stain': west_stain,
         }
         south_details = {
             'ph_level_1': south_ph_1,
             'ph_level_2': south_ph_2,
             'ph_level_3': south_ph_3,
+            'state_of_decay': south_state_of_decay,
+            'texture': south_texture,
+            'stain': south_stain,
         }
 
         self.save_details(
