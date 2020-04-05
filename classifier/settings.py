@@ -35,6 +35,7 @@ INSTALLED_APPS = [
     # local Apps
     'core',
     'core.templatetags',
+    'dashboard.apps.DashboardConfig',
     'direction',
     'epiphytes',
     'specimen',
