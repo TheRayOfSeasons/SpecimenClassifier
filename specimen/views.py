@@ -202,9 +202,7 @@ class AddDirectionDetailsView(View):
                 details.state_of_decay = direction['state_of_decay']
             if direction['texture']:
                 details.texture = direction['texture']
-            if direction['stain']:
-                details.stain = True if direction['stain'] == 'on' else False
-
+            details.stain = True if direction['stain'] == 'on' else False
             details.save()
 
     def get(self, request, pk, *args, **kwargs):

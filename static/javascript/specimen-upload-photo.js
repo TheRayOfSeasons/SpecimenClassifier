@@ -56,7 +56,7 @@ const displayUploaded = (input, direction, number) =>
     insertImage(direction, number).then((id) => {
         if (input.files && input.files[0])
         {
-            var reader = new FileReader();
+            const reader = new FileReader();
 
             reader.onload = (e) =>
             {

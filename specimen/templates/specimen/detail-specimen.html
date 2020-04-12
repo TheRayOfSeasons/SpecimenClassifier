@@ -159,6 +159,78 @@
                 {% endfor %}
             </div>
         </div>
+
+        <div class="row">
+            <h6 class="col-md-2">State of Decay</h6>
+            <div class="col-md-2">
+                {{ north_details.get_state_of_decay_display }}
+            </div>
+            <div class="col-md-2">
+                {{ east_details.get_state_of_decay_display }}
+            </div>
+            <div class="col-md-2">
+                {{ west_details.get_state_of_decay_display }}
+            </div>
+            <div class="col-md-2">
+                {{ south_details.get_state_of_decay_display }}
+            </div>
+        </div>
+
+        <div class="row">
+            <h6 class="col-md-2">Bark Texture</h6>
+            <div class="col-md-2">
+                {{ north_details.get_bark_texture_display }}
+            </div>
+            <div class="col-md-2">
+                {{ east_details.get_bark_texture_display }}
+            </div>
+            <div class="col-md-2">
+                {{ west_details.get_bark_texture_display }}
+            </div>
+            <div class="col-md-2">
+                {{ south_details.get_bark_texture_display }}
+            </div>
+        </div>
+
+        <div class="row">
+            <h6 class="col-md-2">Stain</h6>
+            <div class="col-md-2">
+                <div class="rounded">
+                    {% if north_details.stain|is_false %}
+                        -
+                    {% else %}
+                        +
+                    {% endif %}
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="rounded">
+                    {% if east_details.stain|is_false %}
+                        -
+                    {% else %}
+                        +
+                    {% endif %}
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="rounded">
+                    {% if west_details.stain|is_false %}
+                        -
+                    {% else %}
+                        +
+                    {% endif %}
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="rounded">
+                    {% if south_details.stain|is_false %}
+                        -
+                    {% else %}
+                        +
+                    {% endif %}
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 

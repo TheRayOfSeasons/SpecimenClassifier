@@ -52,7 +52,7 @@
                 <select name="northStateOfDecay" id="northStateOfDecay">
                     <option value="">-----</option>
                     {% for state in state_of_decay_choices %}
-                        <option value="{{ state.value }}">{{ state.display }}</option>
+                        <option value="{{ state.value }}" {% if state.value == north_details.state_of_decay %}selected{% endif %}>{{ state.display }}</option>
                     {% endfor %}
                 </select>
             </div>
@@ -60,7 +60,7 @@
                 <select name="eastStateOfDecay" id="eastStateOfDecay">
                     <option value="">-----</option>
                     {% for state in state_of_decay_choices %}
-                        <option value="{{ state.value }}">{{ state.display }}</option>
+                        <option value="{{ state.value }}" {% if state.value == east_details.state_of_decay %}selected{% endif %}>{{ state.display }}</option>
                     {% endfor %}
                 </select>
             </div>
@@ -68,7 +68,7 @@
                 <select name="westStateOfDecay" id="westStateOfDecay">
                     <option value="">-----</option>
                     {% for state in state_of_decay_choices %}
-                        <option value="{{ state.value }}">{{ state.display }}</option>
+                        <option value="{{ state.value }}" {% if state.value == west_details.state_of_decay %}selected{% endif %}>{{ state.display }}</option>
                     {% endfor %}
                 </select>
             </div>
@@ -76,7 +76,7 @@
                 <select name="southStateOfDecay" id="southStateOfDecay">
                     <option value="">-----</option>
                     {% for state in state_of_decay_choices %}
-                        <option value="{{ state.value }}">{{ state.display }}</option>
+                        <option value="{{ state.value }}" {% if state.value == south_details.state_of_decay %}selected{% endif %}>{{ state.display }}</option>
                     {% endfor %}
                 </select>
             </div>
@@ -88,7 +88,7 @@
                 <select name="northBarkTexture" id="northBarkTexture">
                     <option value="">-----</option>
                     {% for texture in texture_choices %}
-                        <option value="{{ texture.value }}">{{ texture.display }}</option>
+                        <option value="{{ texture.value }}" {% if texture.value == north_details.bark_texture %}selected{% endif %}>{{ texture.display }}</option>
                     {% endfor %}
                 </select>
             </div>
@@ -96,7 +96,7 @@
                 <select name="eastBarkTexture" id="eastBarkTexture">
                     <option value="">-----</option>
                     {% for texture in texture_choices %}
-                        <option value="{{ texture.value }}">{{ texture.display }}</option>
+                        <option value="{{ texture.value }}" {% if texture.value == east_details.bark_texture %}selected{% endif %}>{{ texture.display }}</option>
                     {% endfor %}
                 </select>
             </div>
@@ -104,7 +104,7 @@
                 <select name="westBarkTexture" id="westBarkTexture">
                     <option value="">-----</option>
                     {% for texture in texture_choices %}
-                        <option value="{{ texture.value }}">{{ texture.display }}</option>
+                        <option value="{{ texture.value }}" {% if texture.value == west_details.bark_texture %}selected{% endif %}>{{ texture.display }}</option>
                     {% endfor %}
                 </select>
             </div>
@@ -112,7 +112,7 @@
                 <select name="southBarkTexture" id="southBarkTexture">
                     <option value="">-----</option>
                     {% for texture in texture_choices %}
-                        <option value="{{ texture.value }}">{{ texture.display }}</option>
+                        <option value="{{ texture.value }}" {% if texture.value == south_details.bark_texture %}selected{% endif %}>{{ texture.display }}</option>
                     {% endfor %}
                 </select>
             </div>
@@ -121,16 +121,16 @@
         <div class="form-row">
             <label class="col-md-2">Stain</label>
             <div class="col-md-2">
-                <input type="checkbox" name="northStain" id="northStain">
+                <input type="checkbox" name="northStain" id="northStain" {% if north_details.stain %}checked{% endif %}>
             </div>
             <div class="col-md-2">
-                <input type="checkbox" name="eastStain" id="eastStain">
+                <input type="checkbox" name="eastStain" id="eastStain" {% if east_details.stain %}checked{% endif %}>
             </div>
             <div class="col-md-2">
-                <input type="checkbox" name="westStain" id="westStain">
+                <input type="checkbox" name="westStain" id="westStain" {% if west_details.stain %}checked{% endif %}>
             </div>
             <div class="col-md-2">
-                <input type="checkbox" name="southStain" id="southStain">
+                <input type="checkbox" name="southStain" id="southStain" {% if south_details.stain %}checked{% endif %}>
             </div>
         </div>
 
