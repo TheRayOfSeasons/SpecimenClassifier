@@ -1,0 +1,28 @@
+{% load core_extras %}
+
+{% if form.non_field_errors %}
+    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+    {{ form.non_field_errors|striptags }}
+    <button class="close" type="button" data-dismiss="alert" aria-label="Close">
+        <span class="font-weight-light" aria-hidden="true">×</span>
+    </button>
+    </div>
+{% endif %}
+{% for field in form %}
+    <div class="col-12 mb-3">
+    {{ field.label_tag }}
+    {% if field.field.required %}
+        <em class="text-danger">*</em>
+    {% endif %}
+
+    {{ field|addcss:'form-control' }}
+
+    {% for error_message in field.errors %}
+        <div class="invalid-feedback">
+        <i class="fa fa-exclamation-circle fa-fw"></i> {{ error_message }}
+        </div>
+    {% endfor %}
+    </div>
+{% endfor %}
+</div>
+<hr />
