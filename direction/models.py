@@ -15,6 +15,17 @@ class Directions(models.TextChoices):
     SOUTH = 'S', _('South')
 
 
+class StateOfDecay(models.TextChoices):
+    INTACT = 'i', _('Intact')
+    MODERATELY_INTACT = 'mi', _('Moderately Intact')
+    LOOSE = 'l', _('Loose')
+
+
+class Texture(models.TextChoices):
+    SMOOTH = 's', _('Smooth')
+    ROUGH = 'r', _('Rough')
+
+
 class DirectionSampleDetailsModel(models.Model):
     specimen = models.OneToOneField(Specimen, on_delete=models.CASCADE)
     ph_level_1 = models.DecimalField(
@@ -35,6 +46,17 @@ class DirectionSampleDetailsModel(models.Model):
         null=True,
         blank=True,
     )
+    state_of_decay = models.CharField(
+        max_length=8,
+        choices=StateOfDecay.choices,
+        default=StateOfDecay.INTACT
+    )
+    bark_texture = models.CharField(
+        max_length=8,
+        choices=Texture.choices,
+        default=Texture.SMOOTH
+    )
+    stain = models.BooleanField(default=True)
 
     class Meta:
         abstract = True

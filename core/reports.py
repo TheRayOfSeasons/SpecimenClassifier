@@ -101,7 +101,7 @@ class AllSpecimens:
 
             post_row_data = [
                 ', '.join(specimen.get_distinct_organisms),
-                specimen.get_state_of_decay_display(),
+                # specimen.get_state_of_decay_display(),
                 specimen.get_bark_texture_display(),
                 stain
             ]

@@ -33,16 +33,10 @@ class SpecimenForm(forms.ModelForm):
             'longhitude',
             'dbh',
             'collection_date',
-            'state_of_decay',
-            'bark_texture',
-            'stain',
         )
         labels = {
             'dbh': 'DBH',
             'collection_date': 'Collection Date',
-            'state_of_decay': 'State of Decay',
-            'bark_texture': 'Bark Texture',
-            'stain': 'Stain',
         }
 
     def __init__(self, *args, **kwargs):

@@ -9,7 +9,7 @@
 {% block content %}
     <form action="." method="post">
         {% csrf_token %}
-        <div class="row text-center wow">
+        <div class="row text-center">
             <h4 class="col-md-2"></h4>
             <h4 class="col-md-2">N</h4>
             <h4 class="col-md-2">E</h4>
@@ -43,6 +43,94 @@
                 <input class="form-control" type="number" step="0.01" name="southPH1" id="southPH1" {% if south_details %}value="{{ south_details.ph_level_1 }}"{% endif %}>
                 <input class="form-control" type="number" step="0.01" name="southPH2" id="southPH2" {% if south_details %}value="{{ south_details.ph_level_2 }}"{% endif %}>
                 <input class="form-control" type="number" step="0.01" name="southPH3" id="southPH3" {% if south_details %}value="{{ south_details.ph_level_3 }}"{% endif %}>
+            </div>
+        </div>
+
+        <div class="form-row">
+            <label class="col-md-2">State of Decay</label>
+            <div class="col-md-2">
+                <select name="northStateOfDecay" id="northStateOfDecay">
+                    <option value="">-----</option>
+                    {% for state in state_of_decay_choices %}
+                        <option value="{{ state.value }}" {% if state.value == north_details.state_of_decay %}selected{% endif %}>{{ state.display }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-md-2">
+                <select name="eastStateOfDecay" id="eastStateOfDecay">
+                    <option value="">-----</option>
+                    {% for state in state_of_decay_choices %}
+                        <option value="{{ state.value }}" {% if state.value == east_details.state_of_decay %}selected{% endif %}>{{ state.display }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-md-2">
+                <select name="westStateOfDecay" id="westStateOfDecay">
+                    <option value="">-----</option>
+                    {% for state in state_of_decay_choices %}
+                        <option value="{{ state.value }}" {% if state.value == west_details.state_of_decay %}selected{% endif %}>{{ state.display }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-md-2">
+                <select name="southStateOfDecay" id="southStateOfDecay">
+                    <option value="">-----</option>
+                    {% for state in state_of_decay_choices %}
+                        <option value="{{ state.value }}" {% if state.value == south_details.state_of_decay %}selected{% endif %}>{{ state.display }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+
+        <div class="form-row">
+            <label class="col-md-2">Bark Texture</label>
+            <div class="col-md-2">
+                <select name="northBarkTexture" id="northBarkTexture">
+                    <option value="">-----</option>
+                    {% for texture in texture_choices %}
+                        <option value="{{ texture.value }}" {% if texture.value == north_details.bark_texture %}selected{% endif %}>{{ texture.display }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-md-2">
+                <select name="eastBarkTexture" id="eastBarkTexture">
+                    <option value="">-----</option>
+                    {% for texture in texture_choices %}
+                        <option value="{{ texture.value }}" {% if texture.value == east_details.bark_texture %}selected{% endif %}>{{ texture.display }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-md-2">
+                <select name="westBarkTexture" id="westBarkTexture">
+                    <option value="">-----</option>
+                    {% for texture in texture_choices %}
+                        <option value="{{ texture.value }}" {% if texture.value == west_details.bark_texture %}selected{% endif %}>{{ texture.display }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-md-2">
+                <select name="southBarkTexture" id="southBarkTexture">
+                    <option value="">-----</option>
+                    {% for texture in texture_choices %}
+                        <option value="{{ texture.value }}" {% if texture.value == south_details.bark_texture %}selected{% endif %}>{{ texture.display }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+
+        <div class="form-row">
+            <label class="col-md-2">Stain</label>
+            <div class="col-md-2">
+                <input type="checkbox" name="northStain" id="northStain" {% if north_details.stain %}checked{% endif %}>
+            </div>
+            <div class="col-md-2">
+                <input type="checkbox" name="eastStain" id="eastStain" {% if east_details.stain %}checked{% endif %}>
+            </div>
+            <div class="col-md-2">
+                <input type="checkbox" name="westStain" id="westStain" {% if west_details.stain %}checked{% endif %}>
+            </div>
+            <div class="col-md-2">
+                <input type="checkbox" name="southStain" id="southStain" {% if south_details.stain %}checked{% endif %}>
             </div>
         </div>
 
@@ -116,7 +204,7 @@
                             template_part2: `>{{ epiphyte.name }}</option>`,
                             pk: `{{ epiphyte.pk }}`
                         }
-                    )
+                    );
                 {% endfor %}
 
                 const select_options = option_list.map(element => {
