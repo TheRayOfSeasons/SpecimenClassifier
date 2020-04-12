@@ -1,13 +1,14 @@
 from django.shortcuts import render
 from django.views.generic import (
     ListView,
-    CreateView
+    CreateView,
+    UpdateView,
 )
 from .models import Tree
 from .forms import (
     TreeForm
 )
-from django.urls import reverse
+from django.urls import reverse_lazy
 
 
 class TreeListView(ListView):
@@ -23,7 +24,15 @@ class TreeCreateView(CreateView):
     template_name = 'trees/create-tree.html'
     model = Tree
     form_class = TreeForm
+    success_url = reverse_lazy('trees:list')
 
-    def get_success_url(self):
-        return reverse('trees:list')
 
+class TreeUpdateView(UpdateView):
+    '''
+    View for adding new trees in the database
+    '''
+
+    template_name = 'trees/update-tree.html'
+    model = Tree
+    form_class = TreeForm
+    success_url = reverse_lazy('trees:list')
