@@ -5,6 +5,7 @@
 {% endblock title %}
 
 {% block content %}
+<div class="container">
     <div class="d-flex flex-row-reverse mb-3" id="header-buttons">
         <a href="{% url 'trees:create' %}">
             <button class="btn btn-success">
@@ -12,7 +13,20 @@
             </button>
         </a>
     </div>
-    {% for tree in object_list %}
-        <div>{{ tree.name }}</div>
+    <table class="table table-condensed">
+        <tr>
+            <th>Name</th>
+            <th>Actions</th>
+        </tr>
+    {% for object in object_list %}
+        <tr>
+            <td>{{ object.name }}</td>
+            <td>
+                <a class="btn btn-sm btn-icon btn-secondary" href="{% url 'trees:update' object.pk %}">
+                    <i class="fa fa-pencil"></i>
+                </a>
+            </td>
+        </tr>
     {% endfor %}
+</div>
 {% endblock content %}
