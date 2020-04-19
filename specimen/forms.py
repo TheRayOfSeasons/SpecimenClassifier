@@ -1,20 +1,9 @@
 from django import forms
 
-from .models import (
-    Location,
-    Specimen,
-)
+from locations.models import Location
 from trees.models import Tree
 
-
-class LocationForm(forms.ModelForm):
-    """
-    A form for creating locations.
-    """
-
-    class Meta:
-        model = Location
-        fields = ['name']
+from .models import Specimen
 
 
 class SpecimenForm(forms.ModelForm):

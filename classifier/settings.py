@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'dashboard.apps.DashboardConfig',
     'direction',
     'epiphytes',
+    'locations',
     'specimen',
     'trees',
 

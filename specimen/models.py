@@ -3,22 +3,14 @@ import decimal
 
 from django.db import models
 from django.utils import timezone
-from trees.models import Tree
 from django.utils.translation import gettext_lazy as _
-
-
-class Location(models.Model):
-    name = models.CharField(max_length=128)
-
-    def __str__(self):
-        return self.name
 
 
 class Specimen(models.Model):
     name = models.CharField(max_length=256, blank=True, default='')
     code = models.CharField(max_length=128, blank=True, default='')
-    host_tree = models.ForeignKey(Tree, on_delete=models.CASCADE)
-    location = models.ForeignKey(Location, on_delete=models.CASCADE)
+    host_tree = models.ForeignKey('trees.Tree', on_delete=models.CASCADE)
+    location = models.ForeignKey('locations.Location', on_delete=models.CASCADE)
     latitude = models.CharField(max_length=256, blank=True, default='')
     longhitude = models.CharField(max_length=256, blank=True, default='')
     dbh = models.DecimalField(

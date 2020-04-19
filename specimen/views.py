@@ -40,14 +40,8 @@ from direction.models import Texture
 from epiphytes.models import EpiphyticOrganism
 from trees.models import Tree
 
-from .models import (
-    Specimen,
-    Location
-)
-from .forms import (
-    SpecimenForm,
-    LocationForm,
-)
+from .models import Specimen
+from .forms import SpecimenForm
 
 
 class GenerateAllSpecimensView(ReportView):
@@ -417,13 +411,3 @@ class SouthDeleteSampleImageView(DeleteView):
     def get_success_url(self, **kwargs):
         return reverse_lazy('specimen:detail',
             kwargs={'pk': self.object.specimen.pk })
-
-
-class AddLocationView(CreateView):
-    """
-    Form view for adding locations.
-    """
-
-    template_name = 'specimen/add-location.html'
-    model = Location
-    form_class = LocationForm

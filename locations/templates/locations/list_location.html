@@ -1,15 +1,15 @@
 {% extends 'base.html' %}
 
 {% block title %}
-    Tree List
-{% endblock title %}
+    Locations
+{% endblock %}
 
 {% block content %}
 <div class="container">
     <div class="d-flex flex-row-reverse mb-3" id="header-buttons">
-        <a href="{% url 'trees:create' %}">
+        <a href="{% url 'locations:create' %}">
             <button class="btn btn-success">
-                Add Tree
+                Add Location
             </button>
         </a>
     </div>
@@ -22,11 +22,11 @@
         <tr>
             <td>{{ object.name }}</td>
             <td>
-                <a class="btn btn-sm btn-icon btn-secondary" href="{% url 'trees:update' object.pk %}">
+                <a class="btn btn-sm btn-icon btn-secondary" href="{% url 'locations:update' object.pk %}">
                     <i class="fa fa-pencil"></i>
                 </a>
             </td>
         </tr>
     {% endfor %}
 </div>
-{% endblock content %}
+{% endblock %}
