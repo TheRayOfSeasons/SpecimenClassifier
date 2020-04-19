@@ -72,45 +72,47 @@ class AllSpecimens:
 
             for i, direction in enumerate(['N', 'E', 'W', 'S']):
                 sheet.write(data_row + i, col, direction, style)
-            
+
             col += 1
 
-            for row, data in enumerate([
-                        specimen.northdetails,
-                        specimen.eastdetails,
-                        specimen.westdetails,
-                        specimen.southdetails
-                    ]):
+            specimen_info = []
+            for direction in ['north', 'east', 'west', 'south']:
+                details = getattr(specimen, f'{direction}details', None)
+                organisms = getattr(specimen, f'{direction}organism_set', None)
+                if organisms:
+                    organisms = organisms.all()
+                specimen_info.append(
+                    {
+                        'details': details,
+                        'organisms': organisms,
+                    }
+                )
+
+            for row, data in enumerate(specimen_info):
                 direction_col = col
-                for ph_level in [
-                            data.ph_level_1,
-                            data.ph_level_2,
-                            data.ph_level_3,
-                            data.average_ph
-                        ]:
-                    if ph_level:
-                        sheet.write(data_row + row, direction_col, ph_level, style)
+                details = data['details']
+                organisms = data['organisms']
+                stain = ''
+                if details.stain is True:
+                    stain = '+'
+                elif details.stain is False:
+                    stain = '-'
+
+                fields = [
+                    details.ph_level_1,
+                    details.ph_level_2,
+                    details.ph_level_3,
+                    details.average_ph,
+                    ', '.join([str(i) for i in organisms]),
+                    details.get_state_of_decay_display(),
+                    details.get_bark_texture_display(),
+                    stain
+                ]
+
+                for field in fields:
+                    if field:
+                        sheet.write(data_row + row, direction_col, field, style)
                     direction_col += 1
-
-            col += 4
-            stain = ''
-            if specimen.stain is True:
-                stain = '+'
-            elif specimen.stain is False:
-                stain = '-'
-
-            post_row_data = [
-                ', '.join(specimen.get_distinct_organisms),
-                # specimen.get_state_of_decay_display(),
-                specimen.get_bark_texture_display(),
-                stain
-            ]
-
-            for data in post_row_data:
-                sheet.write_merge(
-                    data_row,
-                    data_row + 3, col, col, data, style)
-                col += 1
 
             data_row += 4
 

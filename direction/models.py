@@ -104,22 +104,22 @@ class DirectionOrganism(models.Model):
 
 class NorthOrganism(DirectionOrganism):
     def __str__(self):
-        return f'{self.specimen.name}'
+        return f'{self.epiphytic_organism.name}'
 
 
 class EastOrganism(DirectionOrganism):
     def __str__(self):
-        return f'{self.specimen.name}'
+        return f'{self.epiphytic_organism.name}'
 
 
 class WestOrganism(DirectionOrganism):
     def __str__(self):
-        return f'{self.specimen.name}'
+        return f'{self.epiphytic_organism.name}'
 
 
 class SouthOrganism(DirectionOrganism):
     def __str__(self):
-        return f'{self.specimen.name}'
+        return f'{self.epiphytic_organism.name}'
 
 
 class DirectionImagesModel(models.Model):
