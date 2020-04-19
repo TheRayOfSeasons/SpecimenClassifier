@@ -1,3 +1,4 @@
+from django.urls import reverse_lazy
 from django.views.generic import CreateView
 from django.views.generic import ListView
 from django.views.generic import UpdateView
@@ -24,6 +25,7 @@ class LocationAddView(CreateView):
     model = Location
     form_class = LocationForm
     template_name = 'locations/add_location.html'
+    success_url = reverse_lazy('locations:list')
 
 
 class LocationUpdateView(UpdateView):
@@ -34,3 +36,4 @@ class LocationUpdateView(UpdateView):
     model = Location
     form_class = LocationForm
     template_name = 'locations/update_location.html'
+    success_url = reverse_lazy('locations:list')
